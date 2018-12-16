@@ -1,13 +1,14 @@
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 
 class Node(object):
 	def __init__(self, item):
 		self.elem = item
 		self.next = None
+		self.pre = None
 		
-class SingleLinklist(object):
-	def __init__(self, item=None):
-		self.__head = item
+class DouLinklist(object):
+	def __init__(self, node=None):
+		self.__head = node
 		
 	def is_empty(self):
 		return self.__head is None
@@ -37,15 +38,8 @@ class SingleLinklist(object):
 		
 	def add(self, item):
 		node = Node(item)
-		'''
-		cur = self.__head
-		if cur is None:
-			self.__head = node
-		else:
-			self.__head = node
-			node.next = cur
-		'''
 		node.next = self.__head
+		self.__head.pre = node
 		self.__head = node
 		
 	def append(self, item):
@@ -57,6 +51,7 @@ class SingleLinklist(object):
 			while cur.next != None:
 				cur = cur.next
 			cur.next = node
+			node.pre = cur
 			
 	def insert(self, pos, item):
 		if pos <= 0:
@@ -71,16 +66,19 @@ class SingleLinklist(object):
 				count += 1
 				pre = pre.next
 			node.next = pre.next
+			pre.next.pre = node
 			pre.next = node
+			node.pre = pre
 			
 	def remove(self,item):
 		cur = self.__head
 		pre = None
 		while cur != None:
 			if cur.elem == item:
-				if not pre:
+				if not pre:  # 如果pre为空
 					self.__head = cur.next
 				else:
+					cur.next.pre = pre
 					pre.next = cur.next
 				break
 			else:
@@ -97,7 +95,7 @@ class SingleLinklist(object):
 			
 			
 if __name__ == "__main__":
-	ll = SingleLinklist()
+	ll = DouLinklist()
 	ll.append(1)
 	ll.append(2)
 	ll.append(3)
@@ -112,10 +110,4 @@ if __name__ == "__main__":
 	print(ll.search(5))
 	ll.remove(1)
 	print("length:",ll.length())
-	ll.travel()			
-			
-			
-			
-			
-			
-		
+	ll.travel()		
