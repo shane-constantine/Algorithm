@@ -6,8 +6,8 @@ class Node(object):
 		self.next = None
 		
 class SingleLinklist(object):
-	def __init__(self, item=None):
-		self.__head = item
+	def __init__(self, node=None):
+		self.__head = node
 		
 	def is_empty(self):
 		return self.__head is None
@@ -74,6 +74,8 @@ class SingleLinklist(object):
 			pre.next = node
 			
 	def remove(self,item):
+		if self.is_empty():
+            return
 		cur = self.__head
 		pre = None
 		while cur != None:

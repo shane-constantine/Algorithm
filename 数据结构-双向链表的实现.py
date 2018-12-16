@@ -71,6 +71,8 @@ class DouLinklist(object):
 			node.pre = pre
 			
 	def remove(self,item):
+		if self.is_empty():
+            return
 		cur = self.__head
 		pre = None
 		while cur != None:
